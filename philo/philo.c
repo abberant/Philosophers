@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 03:46:44 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/28 20:09:52 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/05/30 05:48:39 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	check_args(int argc)
 {
 	if (argc < 5 || argc > 6)
-		_kill("Wrong argument input\n\tImplementation:\n\t\"./philo  [n_philos] \
- [death_span] [meal_span]  [sleep_span]  [circles](optional)\"");
+		return (_kill("Wrong argument input\n\tImplementation:\n\t\"./philo  [n_philos] \
+ [death_span] [meal_span]  [sleep_span]  [circles](optional)\""));
 	return (SUCCESS);
 }
 
@@ -39,7 +39,7 @@ t_table	*parse_and_init(int argc, char **argv)
 	int				i;
 	t_table			*table;
 	pthread_mutex_t	*make_forks;
-	pthread_mutex_t *layout;
+	pthread_mutex_t	*layout;
 
 	i = -1;
 	if (!check_args(argc))
@@ -56,5 +56,5 @@ t_table	*parse_and_init(int argc, char **argv)
 		table[i].last_meal = _calloc(sizeof(pthread_mutex_t), 1);
 		philos_info(argc, argv, &table[i]);
 	}
-	return (table);	
+	return (table);
 }
