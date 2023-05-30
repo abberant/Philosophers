@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:16:08 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/28 04:57:08 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:03:04 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	size_t			n_philos;
+	int				n_philos;
 	pthread_t		thread;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*last_meal;

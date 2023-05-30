@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 03:46:44 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/28 05:42:52 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:09:52 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_table	*parse_and_init(int argc, char **argv)
 	i = -1;
 	if (!check_args(argc))
 		return (NULL);
-	table = _calloc(sizeof(table), _atoi(argv[1]));
+	table = _calloc(sizeof(t_table), _atoi(argv[1]));
 	make_forks = _calloc(sizeof(pthread_mutex_t), _atoi(argv[1]));
 	layout = _calloc(sizeof(pthread_mutex_t), 1);
 	while (++i < _atoi(argv[1]))

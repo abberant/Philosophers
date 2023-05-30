@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 04:03:10 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/28 05:33:04 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:15:15 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ int	_atoi(char *str)
 			return (-1);
 	}
 	_norm(str[i]);
+	if (!num)
+		_kill("Input must be strictly positive!");
 	return (num);
 }
