@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:16:08 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/28 20:03:04 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/05/31 05:03:32 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,15 @@
 # include <limits.h>
 # include <sys/time.h>
 
-# define SUCCESS 1
-# define FAILURE 0
+# define SUCCESS 0
+# define FAILURE 1
+# define SLEEP "is sleeping\n"
+# define EAT "is eating\n"
+# define THINK "is thinking\n"
+# define DIE "died\n"
+# define TAKE_FORK "has taken a fork\n"
+# define PUT_FORK "has put a fork\n"
+
 
 typedef struct s_philo
 {
@@ -37,6 +44,8 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int				n_philos;
+	int				order;
+	long			last_meal_n;
 	pthread_t		thread;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*last_meal;
@@ -54,5 +63,6 @@ int		_atoi(char *str);
 /*#--------- PARSING ---------#*/
 
 t_table	*parse_and_init(int argc, char **argv);
+void	init_simulation(t_table *table);
 
 #endif

@@ -5,56 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/28 03:46:44 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/30 05:48:39 by aanouari         ###   ########.fr       */
+/*   Created: 2023/05/31 04:15:06 by aanouari          #+#    #+#             */
+/*   Updated: 2023/05/31 05:19:51 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	check_args(int argc)
+long	time_now(void)
 {
-	if (argc < 5 || argc > 6)
-		return (_kill("Wrong argument input\n\tImplementation:\n\t\"./philo  [n_philos] \
- [death_span] [meal_span]  [sleep_span]  [circles](optional)\""));
-	return (SUCCESS);
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	philos_info(int argc, char **argv, t_table *table)
+void	_layout(t_table *round, char *exhibit)
 {
-	table->philos->death_span = _atoi(argv[2]);
-	table->philos->meal_span = _atoi(argv[3]);
-	table->philos->sleep_span = _atoi(argv[4]);
-	if (argc == 6)
+	pthread_mutex_lock(round->philos->layout);
+	printf("%ld ms %d %s", time_now() - round->philos->t_creation, round->order, exhibit);
+	pthread_mutex_unlock(round->philos->layout);
+}
+
+void	partake(t_table *round)
+{
+	pthread_mutex_lock(&round->forks[round->order - 1]);
+	_layout(round, TAKE_FORK);
+	pthread_mutex_lock(&round->forks[round->order % round->n_philos]);
+	_layout(round, TAKE_FORK);
+	_layout(round, EAT);
+	if (round->philos->circles > 0)
 	{
-		table->circle_n = _calloc(sizeof(pthread_mutex_t), 1);
-		table->philos->circles = _atoi(argv[5]);
+		pthread_mutex_lock(&round->circle_n[round->order - 1]);
+		round->philos->circles--;
+		pthread_mutex_unlock(&round->circle_n[round->order - 1]);
 	}
-	else
-		table->philos->circles = -1;
+	pthread_mutex_lock(round->last_meal);
+	round->last_meal_n = time_now();
+	pthread_mutex_unlock(round->last_meal);
+	usleep(round->philos->meal_span * 1000);
+	pthread_mutex_unlock(&round->forks[round->order - 1]);
+	pthread_mutex_unlock(&round->forks[round->order % round->n_philos]);
 }
 
-t_table	*parse_and_init(int argc, char **argv)
+void	*routine(void *arg)
 {
-	int				i;
-	t_table			*table;
-	pthread_mutex_t	*make_forks;
-	pthread_mutex_t	*layout;
+	t_table	*round;
+
+	round = (t_table *)arg;
+	round->last_meal_n = time_now();
+	if (round->order % 2 == 0)
+	{
+		usleep(round->philos->sleep_span * 1000);
+		round->last_meal_n = time_now();
+	}
+	while (1)
+	{
+		usleep(100);
+		partake(round);
+		_layout(round, SLEEP);
+		usleep(round->philos->sleep_span * 1000);
+		_layout(round, THINK);
+	}
+	return (NULL);
+}
+
+void	init_simulation(t_table *table)
+{
+	int	i;
 
 	i = -1;
-	if (!check_args(argc))
-		return (NULL);
-	table = _calloc(sizeof(t_table), _atoi(argv[1]));
-	make_forks = _calloc(sizeof(pthread_mutex_t), _atoi(argv[1]));
-	layout = _calloc(sizeof(pthread_mutex_t), 1);
-	while (++i < _atoi(argv[1]))
+	while (++i < table->n_philos)
 	{
-		table[i].n_philos = _atoi(argv[1]);
-		table[i].philos = _calloc(sizeof(t_philo), 1);
-		table[i].forks = make_forks;
-		table[i].philos->layout = layout;
-		table[i].last_meal = _calloc(sizeof(pthread_mutex_t), 1);
-		philos_info(argc, argv, &table[i]);
+		table->philos[i].t_creation = time_now();
+		// printf("%ld\n", table->philos[i].t_creation);
+		table->philos[i].circles = i;
+		table->order = i + 1;
+		pthread_mutex_init(&table->forks[i], NULL);
+		pthread_mutex_init(table[i].philos->layout, NULL);
+		pthread_mutex_init(table[i].last_meal, NULL);
+		if (i == table[i].n_philos - 1)
+			pthread_mutex_init(&table[i].forks[0], NULL);
+		else
+			pthread_mutex_init(&table[i].forks[i + 1], NULL);
+		if (table[i].philos->circles > 0)
+			pthread_mutex_init(&table[i].circle_n[i], NULL);
+		if (pthread_create(&table[i].thread, NULL, &routine, (void *)&table[i]))
+			_kill("Error creating thread");
 	}
-	return (table);
 }

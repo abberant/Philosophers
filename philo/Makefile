@@ -6,14 +6,13 @@
 #    By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/27 01:04:53 by aanouari          #+#    #+#              #
-#    Updated: 2023/05/30 05:40:01 by aanouari         ###   ########.fr        #
+#    Updated: 2023/05/31 05:08:15 by aanouari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	philo
 
-CFLAGS	=	-Wall -Wextra -Werror -pthread -flto 
-# -fsanitize=address -g3
+CFLAGS	=	-Wall -Wextra -Werror -pthread -flto -fsanitize=thread -g3
 CC		=	cc
 RM		=	rm -rf
 
@@ -23,7 +22,7 @@ RED		=	'\033[1;91m'
 GRAY	=	'\033[2;37m'
 ITALIC	=	'\033[3m'
 
-SRCS	=	main.c philo.c utils.c
+SRCS	=	main.c philo.c utils.c parsing.c
 
 OBJS	=	$(SRCS:.c=.o)
 
