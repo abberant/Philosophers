@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 04:15:06 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/31 05:19:51 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/12 02:00:54 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,77 +20,69 @@ long	time_now(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-void	_layout(t_table *round, char *exhibit)
+void	ft_usleep(long time)
 {
-	pthread_mutex_lock(round->philos->layout);
-	printf("%ld ms %d %s", time_now() - round->philos->t_creation, round->order, exhibit);
-	pthread_mutex_unlock(round->philos->layout);
+	long	start;
+
+	start = time_now();
+	while (time_now() - start < time)
+		usleep(10);
 }
 
-void	partake(t_table *round)
+void	partake(t_table *ph)
 {
-	pthread_mutex_lock(&round->forks[round->order - 1]);
-	_layout(round, TAKE_FORK);
-	pthread_mutex_lock(&round->forks[round->order % round->n_philos]);
-	_layout(round, TAKE_FORK);
-	_layout(round, EAT);
-	if (round->philos->circles > 0)
-	{
-		pthread_mutex_lock(&round->circle_n[round->order - 1]);
-		round->philos->circles--;
-		pthread_mutex_unlock(&round->circle_n[round->order - 1]);
-	}
-	pthread_mutex_lock(round->last_meal);
-	round->last_meal_n = time_now();
-	pthread_mutex_unlock(round->last_meal);
-	usleep(round->philos->meal_span * 1000);
-	pthread_mutex_unlock(&round->forks[round->order - 1]);
-	pthread_mutex_unlock(&round->forks[round->order % round->n_philos]);
+	pthread_mutex_lock(&ph->forks[ph->order - 1]);
+	take_fork(ph);
+	pthread_mutex_lock(&ph->forks[ph->order % ph->philos->ph_count]);
+	take_fork(ph);
+	philo_eat(ph);
+	pthread_mutex_lock(ph->recent_mx);
+	ph->recent_meal = time_now();
+	pthread_mutex_unlock(ph->recent_mx);
+	usleep(ph->philos->meal_span);
+	put_fork(ph);
+	pthread_mutex_unlock(&ph->forks[ph->order - 1]);
+	pthread_mutex_unlock(&ph->forks[ph->order % ph->philos->ph_count]);
 }
 
-void	*routine(void *arg)
+void	*routine(void *ph)
 {
-	t_table	*round;
+	t_table	*table;
 
-	round = (t_table *)arg;
-	round->last_meal_n = time_now();
-	if (round->order % 2 == 0)
+	table = (t_table *)ph;
+	table->recent_meal = time_now();
+	if (!(table->order % 2))
 	{
-		usleep(round->philos->sleep_span * 1000);
-		round->last_meal_n = time_now();
+		ft_usleep(table->philos->meal_span);
+		table->recent_meal = time_now();
 	}
 	while (1)
 	{
-		usleep(100);
-		partake(round);
-		_layout(round, SLEEP);
-		usleep(round->philos->sleep_span * 1000);
-		_layout(round, THINK);
+		usleep(10);
+		partake(table);
+		philo_sleep(table);
+		philo_think(table);
 	}
 	return (NULL);
 }
 
-void	init_simulation(t_table *table)
+int	init_simulation(t_table *table)
 {
 	int	i;
 
 	i = -1;
-	while (++i < table->n_philos)
+	while (++i < table->philos->ph_count)
 	{
-		table->philos[i].t_creation = time_now();
-		// printf("%ld\n", table->philos[i].t_creation);
-		table->philos[i].circles = i;
-		table->order = i + 1;
+		table[i].order = i + 1;
+		table[i].philos->t_creation = time_now();
 		pthread_mutex_init(&table->forks[i], NULL);
-		pthread_mutex_init(table[i].philos->layout, NULL);
-		pthread_mutex_init(table[i].last_meal, NULL);
-		if (i == table[i].n_philos - 1)
-			pthread_mutex_init(&table[i].forks[0], NULL);
-		else
-			pthread_mutex_init(&table[i].forks[i + 1], NULL);
+		pthread_mutex_init(&table->recent_mx[i], NULL);
+		pthread_mutex_init(&table->philos->layout[i], NULL);
 		if (table[i].philos->circles > 0)
-			pthread_mutex_init(&table[i].circle_n[i], NULL);
-		if (pthread_create(&table[i].thread, NULL, &routine, (void *)&table[i]))
-			_kill("Error creating thread");
+			pthread_mutex_init(table[i].circle_m, NULL);
+		if (pthread_create(&table[i].thread, NULL, &routine, &table[i]))
+			return (_kill("Error creating threads"));
+		// pthread_detach(table[i].thread);
 	}
+	return (SUCCESS);
 }

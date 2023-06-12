@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:16:08 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/31 05:03:32 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/12 01:47:10 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,24 @@
 
 typedef struct s_philo
 {
+	int				ph_count;
 	int				circles;
+	int				death_span;
 	int				meal_span;
 	int				sleep_span;
-	int				death_span;
 	long			t_creation;
 	pthread_mutex_t	*layout;
 }	t_philo;
 
 typedef struct s_table
 {
-	int				n_philos;
-	int				order;
-	long			last_meal_n;
+	int 			order;
+	int				circle;
+	long			recent_meal;
 	pthread_t		thread;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	*last_meal;
-	pthread_mutex_t	*circle_n;
+	pthread_mutex_t	*circle_m;
+	pthread_mutex_t	*recent_mx;
 	t_philo			*philos;
 }	t_table;
 
@@ -63,6 +64,23 @@ int		_atoi(char *str);
 /*#--------- PARSING ---------#*/
 
 t_table	*parse_and_init(int argc, char **argv);
-void	init_simulation(t_table *table);
+
+/*#--------- ROUTINE ---------#*/
+
+void	philo_sleep(t_table *ph);
+void	philo_think(t_table *ph);
+void	philo_eat(t_table *ph);
+void	take_fork(t_table *ph);
+void	put_fork(t_table *ph);
+
+/*#--------- INITIALISATION ---------#*/
+
+int		init_simulation(t_table *table);
+
+/*#--------- TIME ---------#*/
+
+long	time_now(void);
+void	ft_usleep(long time);
+
 
 #endif
