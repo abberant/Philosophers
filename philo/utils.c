@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 04:03:10 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 02:52:59 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:36:08 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	is_valid(long num)
 int	_kill(char *reason)
 {
 	if (!reason)
-		return (SUCCESS);
+		return (_kill("Error"));
 	write(2, reason, _strlen(reason));
 	write(2, "\n", 1);
-	return (SUCCESS);
+	return (FAILURE);
 }
 
 int	_strlen(char *str)
