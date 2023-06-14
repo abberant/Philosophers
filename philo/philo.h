@@ -6,14 +6,14 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:16:08 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/12 02:43:48 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:55:45 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <stdio.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
@@ -23,13 +23,23 @@
 
 # define SUCCESS 0
 # define FAILURE 1
+# define ERROR 2
+
+
 # define SLEEP "is sleeping\n"
 # define EAT "is eating\n"
 # define THINK "is thinking\n"
 # define DIE "died\n"
-# define TAKE_FORK "has taken a fork\n"
-# define PUT_FORK "has put a fork\n"
+# define FORK "has taken a fork\n"
 
+typedef struct s_parse
+{
+	int	ph_count;
+	int	circles;
+	int	death_span;
+	int	meal_span;
+	int	sleep_span;
+}	t_parse;
 
 typedef struct s_philo
 {
@@ -44,7 +54,7 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	int 			order;
+	int				order;
 	int				circle;
 	long			recent_meal;
 	pthread_t		thread;
@@ -71,16 +81,16 @@ void	philo_sleep(t_table *ph);
 void	philo_think(t_table *ph);
 void	philo_eat(t_table *ph);
 void	take_fork(t_table *ph);
-void	put_fork(t_table *ph);
+void	philo_dead(t_table *ph);
 
 /*#--------- INITIALISATION ---------#*/
 
 int		init_simulation(t_table *table);
+int		fetch_death(t_table *table);
 
 /*#--------- TIME ---------#*/
 
 long	time_now(void);
 void	ft_usleep(long time);
-
 
 #endif

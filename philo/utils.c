@@ -6,25 +6,28 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 04:03:10 by aanouari          #+#    #+#             */
-/*   Updated: 2023/05/30 05:43:37 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:52:59 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	_norm(char c)
+int	is_valid(long num)
 {
-	if (c)
-		_kill("Valid numerical input is required!");
+	if (num > 2147483647)
+		return (SUCCESS);
+	if (num <= 0)
+		return (SUCCESS);
+	return (num);
 }
 
 int	_kill(char *reason)
 {
 	if (!reason)
-		return (FAILURE);
+		return (SUCCESS);
 	write(2, reason, _strlen(reason));
 	write(2, "\n", 1);
-	return (FAILURE);
+	return (SUCCESS);
 }
 
 int	_strlen(char *str)
@@ -57,24 +60,26 @@ int	_atoi(char *str)
 {
 	int				i;
 	unsigned long	num;
+	int				sign;
 
-	i = -1;
+	i = 0;
+	sign = 1;
 	num = 0;
-	while ((str[++i] >= 9 && str[i] <= 13) || str[i] == 32)
-		;
-	if ((str[i] == '+' || str[i] == '-') && str[i + 1])
-		if (str[i++] == '-')
-			_kill("Input must be strictly positive!");
-	if (!str[i])
-		_kill("Valid numerical input is required!");
-	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	while (str[i] == 32 ||(str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		num = num * 10 + str[i++] - 48;
-		if (num > 9223372036854775807)
-			return (-1);
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
 	}
-	_norm(str[i]);
-	if (!num)
-		_kill("Input must be strictly positive!");
-	return (num);
+	while (str[i] >= '0' && str[i] <= '9' && str[i])
+	{
+		num = num * 10 + (str[i++] - 48);
+		if (num > 9223372036854775807 && sign == 1)
+			return (-1);
+		if (num > 9223372036854775807 && sign == -1)
+			return (0);
+	}
+	return (is_valid(num * sign));
 }
