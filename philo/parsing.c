@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 03:46:44 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 17:37:50 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:51:00 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	recheck(t_parse *parse, char **argv)
 		if (!parse->circles)
 			_kill("Invalid number of circles");
 	}
-	return (FAILURE);
+	return (SUCCESS);
 }
 
 void	philos_info(int argc, char **argv, t_table *table)
