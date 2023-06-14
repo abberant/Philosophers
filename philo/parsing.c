@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 03:46:44 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 17:51:00 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:11:25 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,14 @@ t_table	*parse_and_init(int argc, char **argv)
 	i = -1;
 	if (check_args(argc) || recheck(&parse, argv))
 		return (NULL);
-	table = _calloc(sizeof(t_table), 1);
-	while (++i <= _atoi(argv[1]))
+	table = _calloc(sizeof(t_table), _atoi(argv[1]));
+	while (++i < _atoi(argv[1]))
 	{
 		table[i].forks = _calloc(sizeof(pthread_mutex_t), _atoi(argv[1]));
 		table[i].recent_mx = _calloc(sizeof(pthread_mutex_t), 1);
 		table[i].philos = _calloc(sizeof(t_philo), 1);
 		table[i].philos->ph_count = _atoi(argv[1]);
 		table[i].philos->layout = _calloc(sizeof(pthread_mutex_t), 1);
-		if (!table[i].forks || !table[i].recent_mx || !table[i].philos
-			|| !table[i].philos->layout || !table[i].philos->ph_count)
-			return (NULL);
 		philos_info(argc, argv, &table[i]);
 	}
 	return (table);

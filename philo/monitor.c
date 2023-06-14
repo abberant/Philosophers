@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:01:33 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 02:00:42 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:05:10 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_dead(t_table ph)
 	long	now;
 
 	now = time_now();
-	if (now - ph.recent_meal > ph.philos->death_span)
+	if (now - ph.recent_meal >= ph.philos->death_span)
 	{
 		philo_dead(&ph);
 		return (FAILURE);
@@ -42,18 +42,14 @@ int	fetch_death(t_table *ph)
 {
 	int	i;
 
-	i = -1;
-	ft_usleep(15);
+	// ft_usleep(20);
 	while (1)
 	{
+		i = -1;
 		usleep(10);
 		while (++i < ph->philos->ph_count)
-		{
 			if (is_dead(ph[i]))
 				return (FAILURE);
-			i++;
-		}
-		i = -1;
 		if (ph->philos->circles > 0)
 			if (rounds(ph))
 				return (FAILURE);

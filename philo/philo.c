@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 04:15:06 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 02:25:18 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:05:19 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ void	partake(t_table *ph)
 	pthread_mutex_lock(&ph->forks[ph->order % ph->philos->ph_count]);
 	take_fork(ph);
 	philo_eat(ph);
+	pthread_mutex_lock(ph->recent_mx);
+	ph->recent_meal = time_now();
+	pthread_mutex_unlock(ph->recent_mx);
+	ft_usleep(ph->philos->meal_span);
 	if (ph->philos->circles > 0)
 	{
 		pthread_mutex_lock(ph->circle_m);
 		ph->circle--;
 		pthread_mutex_unlock(ph->circle_m);
 	}
-	pthread_mutex_lock(ph->recent_mx);
-	ph->recent_meal = time_now();
-	pthread_mutex_unlock(ph->recent_mx);
-	ft_usleep(ph->philos->meal_span);
 	pthread_mutex_unlock(&ph->forks[ph->order - 1]);
 	pthread_mutex_unlock(&ph->forks[ph->order % ph->philos->ph_count]);
 }
