@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 04:15:06 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 03:39:20 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 03:51:27 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_usleep(long time)
 
 void	partake(t_table *ph)
 {
-	if (!ph->round)
+	if (ph->philos->rounds > 0 && !ph->round)
 		return ;
 	pthread_mutex_lock(&ph->forks[ph->order - 1]);
 	take_fork(ph);

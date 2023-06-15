@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:01:33 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 03:44:49 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 03:49:59 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	monitor(t_table *ph)
 	while (1)
 	{
 		i = -1;
-		ft_usleep(20);
+		ft_usleep(15);
 		while (++i < ph->philos->ph_count)
 			if (is_dead(ph[i]))
 				return (FAILURE);
