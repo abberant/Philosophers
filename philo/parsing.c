@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 03:46:44 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 18:11:25 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 01:14:35 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@ int	recheck(t_parse *parse, char **argv)
 {
 	parse->ph_count = _atoi(argv[1]);
 	if (!parse->ph_count)
-		_kill("Invalid number of philosophers");
+		return(_kill("Invalid number of philosophers"));
 	parse->death_span = _atoi(argv[2]);
 	if (!parse->death_span)
-		_kill("Invalid time to die");
+		return(_kill("Invalid time to die"));
 	parse->meal_span = _atoi(argv[3]);
 	if (!parse->meal_span)
-		_kill("Invalid time to eat");
+		return(_kill("Invalid time to eat"));
 	parse->sleep_span = _atoi(argv[4]);
 	if (!parse->sleep_span)
-		_kill("Invalid time to sleep");
+		return(_kill("Invalid time to sleep"));
 	if (argv[5])
 	{
 		parse->circles = _atoi(argv[5]);
 		if (!parse->circles)
-			_kill("Invalid number of circles");
+			return(_kill("Invalid number of circles"));
 	}
 	return (SUCCESS);
 }
@@ -60,17 +60,19 @@ void	philos_info(int argc, char **argv, t_table *table)
 
 t_table	*parse_and_init(int argc, char **argv)
 {
-	int		i;
-	t_table	*table;
-	t_parse	parse;
+	int				i;
+	t_parse			parse;
+	t_table			*table;
+	pthread_mutex_t	*tab;
 
 	i = -1;
 	if (check_args(argc) || recheck(&parse, argv))
 		return (NULL);
+	tab = _calloc(sizeof(pthread_mutex_t), _atoi(argv[1]));
 	table = _calloc(sizeof(t_table), _atoi(argv[1]));
 	while (++i < _atoi(argv[1]))
 	{
-		table[i].forks = _calloc(sizeof(pthread_mutex_t), _atoi(argv[1]));
+		table[i].forks = tab;
 		table[i].recent_mx = _calloc(sizeof(pthread_mutex_t), 1);
 		table[i].philos = _calloc(sizeof(t_philo), 1);
 		table[i].philos->ph_count = _atoi(argv[1]);

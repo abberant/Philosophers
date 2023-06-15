@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:16:08 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 02:55:45 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 01:14:15 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 # define SUCCESS 0
 # define FAILURE 1
-# define ERROR 2
 
 
 # define SLEEP "is sleeping\n"

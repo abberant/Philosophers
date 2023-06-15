@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 04:03:10 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 17:36:08 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 01:29:52 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,18 @@ void	*_calloc(size_t count, size_t size)
 int	_atoi(char *str)
 {
 	int				i;
-	unsigned long	num;
 	int				sign;
+	unsigned long	num;
 
 	i = 0;
 	sign = 1;
 	num = 0;
-	while (str[i] == 32 ||(str[i] >= 9 && str[i] <= 13))
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
+		if (str[i++] == '-')
 			sign *= -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9' && str[i])
+	while (str[i] >= '0' && str[i] <= '9')
 	{
 		num = num * 10 + (str[i++] - 48);
 		if (num > 9223372036854775807 && sign == 1)
@@ -81,5 +78,7 @@ int	_atoi(char *str)
 		if (num > 9223372036854775807 && sign == -1)
 			return (0);
 	}
+	if (str[i])
+		return (0);
 	return (is_valid(num * sign));
 }

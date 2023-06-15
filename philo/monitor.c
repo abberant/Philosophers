@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:01:33 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 19:05:10 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/14 23:41:08 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	rounds(t_table *ph)
 	i = -1;
 	while (++i < ph->philos->ph_count)
 	{
-		if (ph[i].circle < ph->philos->circles)
+		if (ph[i].circle > 0)
 			return (SUCCESS);
 	}
 	return (FAILURE);
@@ -42,11 +42,10 @@ int	fetch_death(t_table *ph)
 {
 	int	i;
 
-	// ft_usleep(20);
 	while (1)
 	{
 		i = -1;
-		usleep(10);
+		ft_usleep(20);
 		while (++i < ph->philos->ph_count)
 			if (is_dead(ph[i]))
 				return (FAILURE);

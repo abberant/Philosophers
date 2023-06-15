@@ -6,7 +6,7 @@
 #    By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/27 01:04:53 by aanouari          #+#    #+#              #
-#    Updated: 2023/06/14 02:18:28 by aanouari         ###   ########.fr        #
+#    Updated: 2023/06/15 01:13:17 by aanouari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,14 @@ RED		=	'\033[1;91m'
 GRAY	=	'\033[2;37m'
 ITALIC	=	'\033[3m'
 
-SRCS	=	main.c philo.c utils.c parsing.c routine.c \
+SRCS	=	main.c philo.c utils.c parsing.c actions.c \
 			monitor.c
 
 OBJS	=	$(SRCS:.c=.o)
 
 .c.o	:
+			@$(CC) $(CFLAGS) -c $< -o $@
 			@echo $(ITALIC)$(GRAY) "Preparing the philosophers..." $(NONE)
-			@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 all		:	$(NAME)
 
