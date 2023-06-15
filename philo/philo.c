@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 04:15:06 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 01:10:14 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 03:39:20 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ void	ft_usleep(long time)
 
 void	partake(t_table *ph)
 {
-	if (ph->philos->circles > 0 && ph->circle == 0)
+	if (!ph->round)
 		return ;
 	pthread_mutex_lock(&ph->forks[ph->order - 1]);
 	take_fork(ph);
 	pthread_mutex_lock(&ph->forks[ph->order % ph->philos->ph_count]);
 	take_fork(ph);
 	philo_eat(ph);
-	if (ph->philos->circles > 0)
+	if (ph->philos->rounds > 0)
 	{
-		pthread_mutex_lock(ph->circle_m);
-		ph->circle--;
-		pthread_mutex_unlock(ph->circle_m);
+		pthread_mutex_lock(ph->round_m);
+		ph->round--;
+		pthread_mutex_unlock(ph->round_m);
 	}
 	pthread_mutex_lock(ph->recent_mx);
 	ph->recent_meal = time_now();
@@ -85,11 +85,11 @@ int	init_simulation(t_table *table)
 		pthread_mutex_init(&table->forks[i], NULL);
 		pthread_mutex_init(table[i].recent_mx, NULL);
 		pthread_mutex_init(table[i].philos->layout, NULL);
-		if (table[i].philos->circles > 0)
-			pthread_mutex_init(table[i].circle_m, NULL);
+		if (table[i].philos->rounds > 0)
+			pthread_mutex_init(table[i].round_m, NULL);
 		if (pthread_create(&table[i].thread, NULL, &routine, &table[i]))
 			return (_kill("Error creating threads!"));
-		pthread_detach(table[i].thread);
+		// pthread_detach(table[i].thread);
 	}
 	return (SUCCESS);
 }

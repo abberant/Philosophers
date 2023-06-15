@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:16:08 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 01:14:15 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 03:36:36 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 # define SUCCESS 0
 # define FAILURE 1
-
 
 # define SLEEP "is sleeping\n"
 # define EAT "is eating\n"
@@ -43,7 +42,7 @@ typedef struct s_parse
 typedef struct s_philo
 {
 	int				ph_count;
-	int				circles;
+	int				rounds;
 	int				death_span;
 	int				meal_span;
 	int				sleep_span;
@@ -54,11 +53,11 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int				order;
-	int				circle;
+	int				round;
 	long			recent_meal;
 	pthread_t		thread;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	*circle_m;
+	pthread_mutex_t	*round_m;
 	pthread_mutex_t	*recent_mx;
 	t_philo			*philos;
 }	t_table;
@@ -85,7 +84,7 @@ void	philo_dead(t_table *ph);
 /*#--------- INITIALISATION ---------#*/
 
 int		init_simulation(t_table *table);
-int		fetch_death(t_table *table);
+int		monitor(t_table *table);
 
 /*#--------- TIME ---------#*/
 

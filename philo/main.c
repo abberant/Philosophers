@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:15:38 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/14 23:47:52 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 03:35:01 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 		return (FAILURE);
 	if (init_simulation(table))
 		return (FAILURE);
-	if (fetch_death(table))
+	if (monitor(table))
 		return (FAILURE);
 	return (SUCCESS);
 }
