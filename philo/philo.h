@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 01:16:08 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 03:36:36 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/16 05:33:38 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,7 @@
 # define DIE "died\n"
 # define FORK "has taken a fork\n"
 
-typedef struct s_parse
-{
-	int	ph_count;
-	int	circles;
-	int	death_span;
-	int	meal_span;
-	int	sleep_span;
-}	t_parse;
+/*#--------- STRUCTS ---------#*/
 
 typedef struct s_philo
 {
@@ -79,9 +72,9 @@ void	philo_sleep(t_table *ph);
 void	philo_think(t_table *ph);
 void	philo_eat(t_table *ph);
 void	take_fork(t_table *ph);
-void	philo_dead(t_table *ph);
+void	partake(t_table *ph);
 
-/*#--------- INITIALISATION ---------#*/
+/*#--------- INITIALIZATION ---------#*/
 
 int		init_simulation(t_table *table);
 int		monitor(t_table *table);

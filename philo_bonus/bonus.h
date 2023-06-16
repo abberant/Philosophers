@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 22:56:55 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 23:52:47 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/16 03:48:14 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_philo
 	int				death_span;
 	int				meal_span;
 	int				sleep_span;
-	int				t_created;
+	long			t_created;
 	sem_t			*fork;
 	sem_t			*layout;
 }				t_philo;
@@ -59,7 +59,7 @@ typedef struct s_table
 /*---------- UTILS ----------*/
 
 int		is_valid(long num);
-int		_kill(char *reason);
+void	_kill(char *reason);
 int		_strlen(char *str);
 void	*_calloc(size_t count, size_t size);
 int		_atoi(char *str);
@@ -67,5 +67,6 @@ int		_atoi(char *str);
 /*---------- INITIALIZATION ----------*/
 
 int		parse(int argc, char **argv);
+pid_t	*init_table(int argc, char **argv);
 
 #endif

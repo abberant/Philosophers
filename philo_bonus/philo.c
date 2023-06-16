@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/15 22:54:53 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 03:36:35 by aanouari         ###   ########.fr       */
+/*   Created: 2023/06/16 05:48:20 by aanouari          #+#    #+#             */
+/*   Updated: 2023/06/16 05:56:52 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus.h"
 
-int	main(int argc, char **argv)
+void	life_cycle(t_table *pb)
 {
-	pid_t	*PID;
+	pthread_t	tid;
 
-	if (parse(argc, argv))
-		return (FAILURE);
-	PID = init_table(argc, argv);
-	if (!PID)
-		_kill("Error: PID system anomaly");
-	return (SUCCESS);
+	pb->recent_meal = time_now();
 }

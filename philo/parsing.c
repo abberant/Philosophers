@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 03:46:44 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 03:36:17 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/15 23:45:03 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,18 @@ static int	check_args(int argc)
 	return (SUCCESS);
 }
 
-int	recheck(t_parse *parse, char **argv)
+int	recheck(int argc, char **argv)
 {
-	parse->ph_count = _atoi(argv[1]);
-	if (!parse->ph_count)
+	if (!_atoi(argv[1]))
 		return (_kill("Invalid number of philosophers"));
-	parse->death_span = _atoi(argv[2]);
-	if (!parse->death_span)
+	if (!_atoi(argv[2]))
 		return (_kill("Invalid time to die"));
-	parse->meal_span = _atoi(argv[3]);
-	if (!parse->meal_span)
+	if (!_atoi(argv[3]))
 		return (_kill("Invalid time to eat"));
-	parse->sleep_span = _atoi(argv[4]);
-	if (!parse->sleep_span)
+	if (!_atoi(argv[4]))
 		return (_kill("Invalid time to sleep"));
-	if (argv[5])
-	{
-		parse->circles = _atoi(argv[5]);
-		if (!parse->circles)
-			return (_kill("Invalid number of circles"));
-	}
+	if (argc == 6 && !_atoi(argv[5]))
+		return (_kill("Invalid number of circles"));
 	return (SUCCESS);
 }
 
@@ -61,12 +53,11 @@ void	philos_info(int argc, char **argv, t_table *table)
 t_table	*parse_and_init(int argc, char **argv)
 {
 	int				i;
-	t_parse			parse;
 	t_table			*table;
 	pthread_mutex_t	*fork;
 
 	i = -1;
-	if (check_args(argc) || recheck(&parse, argv))
+	if (check_args(argc) || recheck(argc, argv))
 		return (NULL);
 	fork = _calloc(sizeof(pthread_mutex_t), _atoi(argv[1]));
 	table = _calloc(sizeof(t_table), _atoi(argv[1]));

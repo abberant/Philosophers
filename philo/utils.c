@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 04:03:10 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/15 02:54:49 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/16 03:37:44 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	_atoi(char *str)
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 		if (str[i++] == '-')
-			sign *= -1;
-	while (str[i] >= '0' && str[i] <= '9')
+			sign = -1;
+	while (str[i] >= '0' && str[i] <= '9' && str[i])
 	{
 		num = num * 10 + (str[i++] - 48);
 		if (num > 9223372036854775807 && sign == 1)

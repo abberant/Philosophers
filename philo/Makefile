@@ -6,13 +6,13 @@
 #    By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/27 01:04:53 by aanouari          #+#    #+#              #
-#    Updated: 2023/06/15 01:13:17 by aanouari         ###   ########.fr        #
+#    Updated: 2023/06/16 01:23:49 by aanouari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	philo
 
-CFLAGS	=	-Wall -Wextra -Werror -pthread -flto -fsanitize=address -g
+CFLAGS	=	-Wall -Wextra -Werror -pthread -flto 
 CC		=	cc
 RM		=	rm -rf
 
