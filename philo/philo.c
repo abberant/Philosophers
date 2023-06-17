@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 04:15:06 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 05:53:49 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/17 01:36:57 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	*routine(void *ph)
 		usleep(10);
 		partake(table);
 		philo_sleep(table);
+		ft_usleep(table->philos->meal_span);
 		philo_think(table);
-		// monitor(table);
 	}
 	return (NULL);
 }

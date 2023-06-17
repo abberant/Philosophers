@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 23:01:33 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 05:36:12 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/17 01:38:27 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ int	is_dead(t_table ph)
 	long	time;
 
 	time = time_now() - ph.philos->t_creation;
-	pthread_mutex_lock(ph.philos->layout);
 	pthread_mutex_lock(ph.recent_mx);
 	if (time_now() - ph.recent_meal >= ph.philos->death_span)
 	{
+		pthread_mutex_lock(ph.philos->layout);
 		printf("%ld %d %s", time, ph.order, DIE);
 		return (FAILURE);
 	}
 	pthread_mutex_unlock(ph.recent_mx);
-	pthread_mutex_unlock(ph.philos->layout);
 	return (SUCCESS);
 }
 
@@ -53,8 +52,8 @@ int	monitor(t_table *ph)
 
 	while (1)
 	{
+		usleep(10);
 		i = -1;
-		ft_usleep(15);
 		while (++i < ph->philos->ph_count)
 			if (is_dead(ph[i]))
 				return (FAILURE);

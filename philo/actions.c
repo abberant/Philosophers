@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 23:29:34 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 05:33:07 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/17 01:36:22 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	philo_sleep(t_table *ph)
 	pthread_mutex_lock(ph->philos->layout);
 	printf("%ld %d %s", time, ph->order, SLEEP);
 	pthread_mutex_unlock(ph->philos->layout);
-	ft_usleep(ph->philos->sleep_span);
 }
 
 void	philo_think(t_table *ph)
