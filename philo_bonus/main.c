@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 22:54:53 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 03:36:35 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/17 05:34:56 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int	main(int argc, char **argv)
 	PID = init_table(argc, argv);
 	if (!PID)
 		_kill("Error: PID system anomaly");
+	hold_processes(PID, _atoi(argv[1]));
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 #    By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/15 22:54:44 by aanouari          #+#    #+#              #
-#    Updated: 2023/06/15 23:53:33 by aanouari         ###   ########.fr        #
+#    Updated: 2023/06/17 02:12:36 by aanouari         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ RED		=	'\033[1;91m'
 GRAY	=	'\033[2;37m'
 ITALIC	=	'\033[3m'
 
-SRCS	=	main.c utils.c parse.c \
+SRCS	=	main.c utils.c parse.c actions.c philo.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

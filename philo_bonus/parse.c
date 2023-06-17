@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:52:18 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 05:48:08 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/17 03:12:38 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@ long	time_now(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
+void	ft_usleep(long time)
+{
+	long	start;
 
+	start = time_now();
+	while (time_now() - start < time)
+		usleep(10);
+}
 
 int	parse(int argc, char **argv)
 {
@@ -40,23 +47,23 @@ int	parse(int argc, char **argv)
 	return (SUCCESS);
 }
 
-void	philos_info(t_table pb, int argc, char **argv, int index)
+void	philos_info(t_table *pb, int argc, char **argv, int index)
 {
-	pb.order = index + 1;
-	pb.philos->t_created = time_now();
-	pb.philos->ph_count = _atoi(argv[1]);
-	pb.philos->death_span = _atoi(argv[2]);
-	pb.philos->meal_span = _atoi(argv[3]);
-	pb.philos->sleep_span = _atoi(argv[4]);
+	pb->order = index + 1;
+	pb->philos->t_created = time_now();
+	pb->philos->ph_count = _atoi(argv[1]);
+	pb->philos->death_span = _atoi(argv[2]);
+	pb->philos->meal_span = _atoi(argv[3]);
+	pb->philos->sleep_span = _atoi(argv[4]);
 	if (argc == 6)
 	{
-		pb.philos->rounds = _atoi(argv[5]);
-		pb.round = _atoi(argv[5]);
+		pb->philos->rounds = _atoi(argv[5]);
+		pb->round = _atoi(argv[5]);
 	}
 	else
 	{
-		pb.philos->rounds = -1;
-		pb.round = -1;
+		pb->philos->rounds = -1;
+		pb->round = -1;
 	}
 }
 
@@ -66,7 +73,7 @@ pid_t	*init_table(int argc, char **argv)
 	pid_t	*PID;
 	t_table pb;
 
-	i = -1;
+	i = 0;
 	pb.philos = _calloc(sizeof(t_philo), 1);
 	PID = _calloc(sizeof(pid_t), _atoi(argv[1]));
 	if (!pb.philos || !PID)
@@ -75,14 +82,15 @@ pid_t	*init_table(int argc, char **argv)
 	pb.philos->layout = sem_open("layout", O_CREAT, 0666, 1);
 	if (pb.philos->fork == SEM_FAILED || pb.philos->layout == SEM_FAILED)
 		_kill("Error: Semaphore creation failed");
-	while (++i < _atoi(argv[1]))
+	while (i < _atoi(argv[1]))
 	{
-		philos_info(pb, argc, argv, i);
+		philos_info(&pb, argc, argv, i);
 		PID[i] = fork();
 		if (PID[i] < 0)
 			_kill("Error: Fork failed");
 		if (!PID[i])
 			life_cycle(&pb);
+		i++;
 	}
 	return (PID);
 }

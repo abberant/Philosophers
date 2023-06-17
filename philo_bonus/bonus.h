@@ -6,12 +6,14 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 22:56:55 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 03:48:14 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/17 05:35:29 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BONUS_H
 # define BONUS_H
+
+/*---------- INCLUDES ----------*/
 
 # include <stdio.h>
 # include <unistd.h>
@@ -24,8 +26,12 @@
 # include <sys/types.h>
 # include <signal.h>
 
+/*---------- BINARY ----------*/
+
 # define SUCCESS 0
 # define FAILURE 1
+
+/*---------- MESSAGES ----------*/
 
 # define EAT "is eating"
 # define SLEEP "is sleeping"
@@ -68,5 +74,23 @@ int		_atoi(char *str);
 
 int		parse(int argc, char **argv);
 pid_t	*init_table(int argc, char **argv);
+
+/*---------- ACTIONS ----------*/
+
+void	philo_sleep(t_table *pb);
+void	philo_think(t_table *pb);
+void	take_fork(t_table *pb);
+void	philo_eat(t_table *pb);
+void	partake(t_table *pb);
+
+/*---------- TIME ----------*/
+
+void	ft_usleep(long time);
+long	time_now(void);
+
+/*---------- ROUTINE ----------*/
+
+void	life_cycle(t_table *pb);
+void	hold_processes(pid_t *PID, int count);
 
 #endif
