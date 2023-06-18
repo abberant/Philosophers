@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:00:47 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/16 03:38:09 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/18 04:24:53 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	*_calloc(size_t count, size_t size)
 	return ((void *) tab);
 }
 
-int _atoi(char *str)
+int	_atoi(char *str)
 {
 	int				i;
 	int				sign;

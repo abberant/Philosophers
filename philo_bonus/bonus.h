@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 22:56:55 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/17 05:35:29 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/18 04:19:04 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_table
 	int				order;
 	int				round;
 	long			recent_meal;
-	sem_t 			*recent_ms;
+	sem_t			*recent_ms;
 	t_philo			*philos;
 }					t_table;
 

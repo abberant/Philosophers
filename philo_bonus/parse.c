@@ -6,7 +6,7 @@
 /*   By: aanouari <aanouari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 23:52:18 by aanouari          #+#    #+#             */
-/*   Updated: 2023/06/17 03:12:38 by aanouari         ###   ########.fr       */
+/*   Updated: 2023/06/18 04:27:54 by aanouari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	parse(int argc, char **argv)
 void	philos_info(t_table *pb, int argc, char **argv, int index)
 {
 	pb->order = index + 1;
-	pb->philos->t_created = time_now();
 	pb->philos->ph_count = _atoi(argv[1]);
 	pb->philos->death_span = _atoi(argv[2]);
 	pb->philos->meal_span = _atoi(argv[3]);
@@ -70,13 +69,13 @@ void	philos_info(t_table *pb, int argc, char **argv, int index)
 pid_t	*init_table(int argc, char **argv)
 {
 	int		i;
-	pid_t	*PID;
-	t_table pb;
+	pid_t	*proc;
+	t_table	pb;
 
 	i = 0;
+	proc = _calloc(sizeof(pid_t), _atoi(argv[1]));
 	pb.philos = _calloc(sizeof(t_philo), 1);
-	PID = _calloc(sizeof(pid_t), _atoi(argv[1]));
-	if (!pb.philos || !PID)
+	if (!pb.philos || !proc)
 		_kill("Error: Memory allocation failed");
 	pb.philos->fork = sem_open("fork", O_CREAT, 0666, _atoi(argv[1]));
 	pb.philos->layout = sem_open("layout", O_CREAT, 0666, 1);
@@ -84,13 +83,15 @@ pid_t	*init_table(int argc, char **argv)
 		_kill("Error: Semaphore creation failed");
 	while (i < _atoi(argv[1]))
 	{
+		pb.philos->t_created = time_now();
 		philos_info(&pb, argc, argv, i);
-		PID[i] = fork();
-		if (PID[i] < 0)
+		proc[i] = fork();
+		if (proc[i] < 0)
 			_kill("Error: Fork failed");
-		if (!PID[i])
+		if (!proc[i])
 			life_cycle(&pb);
 		i++;
 	}
-	return (PID);
+	free(pb.philos);
+	return (proc);
 }
