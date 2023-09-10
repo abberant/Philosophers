@@ -33,3 +33,11 @@ The conundrum presented itself thus: to contrive a solution permitting the philo
 This quandary stands as a timeless testament to the trials of concurrent programming, demanding the employment of synchronization arts like mutexes and semaphores to forestall the specters of deadlock and contention. Many a method hath been conceived to resolve the Dining Philosophers' riddle, employing diverse techniques and ancient incantations to harmonize the philosophers' repasts and forestall conflicts.
 <br />
 <br />
+<div align="left">
+  <details>
+    <summary>Treasures :</summary>
+    <i>  <b> <a href="https://medium.com/swlh/the-dining-philosophers-problem-bbdb92e6b788"> - [Medium - The Dining Philosopher’s Problem] </a></i></b>
+    <br />
+    <i>  <b> <a href="https://www.youtube.com/watch?v=d9s_d28yJq0&list=PLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2)"> - [Unix Threads in C] </a></i></b>
+  </details>
+</div>
